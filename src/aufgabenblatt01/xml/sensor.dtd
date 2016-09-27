@@ -1,0 +1,4 @@
+<!ELEMENT sensor (measurement*)>
+<!ATTLIST sensor id CDATA #REQUIRED>
+<!ELEMENT measurement EMPTY>
+<!ATTLIST measurement value CDATA #REQUIRED timestamp CDATA #REQUIRED>
