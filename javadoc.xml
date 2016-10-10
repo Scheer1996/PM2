@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" author="true" classpath="C:\Users\Moritz\.p2\pool\plugins\org.junit_4.12.0.v201504281640\junit.jar;C:\Users\Moritz\.p2\pool\plugins\org.hamcrest.core_1.3.0.v201303031735.jar" destdir="docs" doctitle="Prakikum Programmiermethodik 2 - WS 2016/17" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="aufgabenblatt01.test,aufgabenblatt01.generics,aufgabenblatt01.wiederholung,aufgabenblatt01.xml" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
