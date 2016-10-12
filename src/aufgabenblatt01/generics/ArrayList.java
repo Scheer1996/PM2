@@ -14,7 +14,6 @@ import java.util.OptionalInt;
 /**
  * A List based on arrays
  *
- * @author Moritz Höwer
  * @version 2.0 - 10.10.2016
  */
 public class ArrayList<T> {
