@@ -41,6 +41,10 @@ public class Sensor {
 		return id;
 	}
 	
+	public ArrayList<Measurement> getMeasurements() {
+		return measurements;
+	}
+	
 	/**
 	 * 
 	 */

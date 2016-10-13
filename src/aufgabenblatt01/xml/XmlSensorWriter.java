@@ -1,0 +1,52 @@
+package aufgabenblatt01.xml;
+
+import java.io.File;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+public class XmlSensorWriter {
+	
+	private Document document;
+	private String filePath;
+	
+	public XmlSensorWriter(String filePath) throws ParserConfigurationException {
+		this.filePath = filePath;
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		document = builder.newDocument();
+		
+		
+	}
+	
+	public void writeSensor(Sensor s) throws TransformerException {
+		Element rootElement = document.createElement("sensor");
+		rootElement.setAttribute("id", s.getId());
+		
+		for(Measurement m : s.getMeasurements()) {
+			Element measurmentElement = document.createElement("measurement"); //create new measurment
+			measurmentElement.setAttribute("timestamp", m.getTimestamp().toString()); // add TimeStamp
+			String valueString = Double.toString(m.getValue()); // format value
+			measurmentElement.setAttribute("value", valueString.replace(".", ",")); //add value and format with comma
+			rootElement.appendChild(measurmentElement); // append measurement
+		}
+		document.appendChild(rootElement);
+		
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(document);
+		StreamResult result = new StreamResult(new File(filePath));
+		transformer.transform(source, result);
+	}
+	
+	
+}
