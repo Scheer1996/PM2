@@ -51,7 +51,7 @@ public class XmlSensorParser {
 	public Sensor parseSensor() {
 		Element e = document.getDocumentElement();
 		// found Sensor Element in XML
-		if(e != null && e.getNodeName().equals("Sensor")) {
+		if(e != null && e.getNodeName().equals("sensor")) {
 			 //creates new Sensor with id as the name
 			Sensor sensor = new Sensor(e.getAttribute("id"));
 
@@ -97,7 +97,7 @@ public class XmlSensorParser {
 				//get timeStamp
 				LocalDateTime timeStamp = LocalDateTime.parse(e.getAttribute("timestamp"));
 				
-				Measurement m = new Measurement((double)value, timeStamp);
+				Measurement m = new Measurement(value.doubleValue(), timeStamp);
 				return m;
 			} catch (ParseException e1) {
 				System.err.println("Value was not a Number with Germany formation (comma)");

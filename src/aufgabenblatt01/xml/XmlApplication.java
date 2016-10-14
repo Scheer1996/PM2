@@ -7,7 +7,7 @@ import javax.xml.transform.TransformerException;
 
 public class XmlApplication {
 	
-	private static final String XML_PATH = "/Users/Philip/Development/Studium/PM2/src/aufgabenblatt01/xml/";
+	private static final String XML_FILE = "sensor.xml";
 
 	/**
 	 * Main Method. Nothing important for testing
@@ -22,11 +22,11 @@ public class XmlApplication {
 		System.out.println(s.toString());
 		
 
-		Sensor s2 = getSensor(); //read out sensor which was written in the xml file
+		Sensor s2 = getSensor(XML_FILE); //read out sensor which was written in the xml file
 		System.out.println(s2.toString());
 		
 		
-		writeSensor(s2); //write above generated sensor to xml file
+		writeSensor(s2, XML_FILE); //write above generated sensor to xml file
 
 	}
 	
@@ -35,8 +35,9 @@ public class XmlApplication {
 	 * gets the Sensor Data which is placed in the XML File @ XML_PATH
 	 * @return Sensor
 	 */
-	private static Sensor getSensor() {
-		XmlSensorParser sensorParser = new XmlSensorParser(XML_PATH +"sensor.xml");
+	private static Sensor getSensor(String filename) {
+		String filepath = XmlApplication.class.getResource(filename).getFile();
+		XmlSensorParser sensorParser = new XmlSensorParser(filepath);
 		//XmlSensorParser sensorParser = new XmlSensorParser();
 		return sensorParser.parseSensor();
 	}
@@ -45,10 +46,11 @@ public class XmlApplication {
 	 * writes the Sensor s to the XML File @ XML_PATH
 	 * @param s Sensor
 	 */
-	private static void writeSensor(Sensor s) {
+	private static void writeSensor(Sensor s, String filename) {
+		String filepath = XmlApplication.class.getResource(filename).getFile();
 		XmlSensorWriter sensorWriter;
 		try {
-			sensorWriter = new XmlSensorWriter(XML_PATH + "writeSensor.xml");
+			sensorWriter = new XmlSensorWriter(filepath);
 			sensorWriter.writeSensor(s);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
