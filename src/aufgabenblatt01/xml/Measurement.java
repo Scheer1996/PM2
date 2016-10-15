@@ -10,27 +10,51 @@ package aufgabenblatt01.xml;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a measurement taken from a sensor
+ *
+ *
+ * @author Philip Scheer
+ * @version 1.1 - 16.10.2016
+ */
 public class Measurement {
 
-	private double value;
-	private LocalDateTime timestamp;
-	
-	
-	public Measurement(double value, LocalDateTime timestamp) {
-		this.value = value;
-		this.timestamp = timestamp;
-	}
-	
-	
-	public double getValue() {
-		return value;
-	}
-	
-	public LocalDateTime getTimestamp() {
-		return timestamp;
-	}
-	
-	public String toString() {
-		return "\n Value: "+ value + " Timestamp: " + timestamp; 
-	}
+    /**
+     * the value that was recorded
+     */
+    private final double value;
+
+    /**
+     * the time and date of the recording
+     */
+    private final LocalDateTime timestamp;
+
+    public Measurement(double value, LocalDateTime timestamp) {
+        this.value = value;
+        this.timestamp = timestamp;
+    }
+
+    /**
+     * @return the value
+     */
+    public double getValue() {
+        return value;
+    }
+
+    /**
+     * @return the timestamp
+     */
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Measurement [value=" + value + ", timestamp=" + timestamp + "]";
+    }
 }

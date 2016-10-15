@@ -14,7 +14,7 @@ import java.util.OptionalInt;
 /**
  * A List based on arrays
  *
- * @version 2.0 - 10.10.2016
+ * @version 2.1 - 16.10.2016
  */
 public class ArrayList<T> {
 
@@ -26,7 +26,7 @@ public class ArrayList<T> {
     /**
      * the factor to multiply current array size with when expanding
      */
-    private static final int GROWTH_FACTOR = 10;
+    private static final double GROWTH_FACTOR = 1.5;
 
     /**
      * the array used for storing the data in this list
@@ -62,7 +62,7 @@ public class ArrayList<T> {
         }
         if (count == data.length) {
             // we need a new array
-            Object[] temp = new Object[data.length * GROWTH_FACTOR];
+            Object[] temp = new Object[(int) (data.length * GROWTH_FACTOR)];
 
             // copy elements before the index to new array
             System.arraycopy(data, 0, temp, 0, index);
@@ -131,18 +131,38 @@ public class ArrayList<T> {
             throw new IndexOutOfBoundsException(
                     "Index must be between 0 and " + count);
         }
-        if (index == count - 1) {
-            // deleting last item - easy
-            count--;
+        count--;
+        if (index == count) {
+            // deleting last item - nothing more to do
+            if (count < data.length / 2) {
+                // free up space again
+                Object[] temp = new Object[(int) (data.length / GROWTH_FACTOR)];
 
-        } else {
-            // move all elements behind index forward one
-            for (int i = index; i < count - 1; i++) {
-                data[i] = data[i + 1];
+                // copy elements to new array
+                System.arraycopy(data, 0, temp, 0, count);
 
+                // make data point to new array
+                data = temp;
             }
+        } else {
+            if (count < data.length / 2) {
+                // free up space again
+                Object[] temp = new Object[(int) (data.length / GROWTH_FACTOR)];
 
-            count--;
+                // copy elements before the index to new array
+                System.arraycopy(data, 0, temp, 0, index);
+
+                // copy elements after index
+                System.arraycopy(data, index + 1, temp, index, count - index);
+
+                // make data point to new array
+                data = temp;
+            } else {
+                // move all elements behind index forward one
+                for (int i = index; i < count; i++) {
+                    data[i] = data[i + 1];
+                }
+            }
         }
 
         return this;
@@ -271,10 +291,30 @@ public class ArrayList<T> {
         if (list.size() == 0) {
             return false;
         }
-        
+
         // get first value
         X value = list.get(0);
         return value instanceof Number;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("ArrayList(" + count + ")-[");
+
+        // go through the array
+        for (int i = 0; i < count; i++) {
+            builder.append(data[i]);
+            if ((i + 1) != count) {
+                builder.append(", ");
+            }
+        }
+        builder.append(']');
+        return builder.toString();
     }
 
 }

@@ -10,48 +10,76 @@ package aufgabenblatt01.xml;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Representation of a sensor
+ *
+ * @author Philip Scheer
+ * @version 1.1 - 16.10.2016
+ */
 public class Sensor {
 
-	String id;
-	ArrayList<Measurement> measurements = new ArrayList<Measurement>();
-	
-	public Sensor(String id) {
-		this.id = id;
-	}
-	
-	/**
-	 * adds new Measurement with current Time to the Sensor measurements
-	 * @param value 
-	 */
-	public void addNewMeasurement(double value) {
-		Measurement measurement = new Measurement(value, LocalDateTime.now());
-		measurements.add(measurement);
-	}
+    /**
+     * the sensors ID
+     */
+    private final String id;
 
-	/**
-	 * adds a Measurement Element which already exists to the Sensor measurements
-	 * @param m
-	 */
-	public void addMeasurementElement(Measurement m) {
-		measurements.add(m);
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	public ArrayList<Measurement> getMeasurements() {
-		return measurements;
-	}
-	
-	/**
-	 * 
-	 */
-	
-	public String toString() {
-		String s = "Sensor: " + id + "\n";
-		s += measurements.toString();
-		return s;
-	}
+    /**
+     * a list of measurements taken by this sensor
+     */
+    private ArrayList<Measurement> measurements;
+
+    public Sensor(String id) {
+        this.id = id;
+        measurements = new ArrayList<Measurement>();
+    }
+
+    /**
+     * Adds new measurement with current time to the sensors measurements
+     * 
+     * @param value
+     *            the value to add
+     */
+    public void addNewMeasurement(double value) {
+        Measurement measurement = new Measurement(value, LocalDateTime.now());
+        measurements.add(measurement);
+    }
+
+    /**
+     * Adds a measurement which already exists to the sensors measurements
+     * 
+     * @param m
+     *            the measurement to add
+     */
+    public void addMeasurement(Measurement m) {
+        measurements.add(m);
+    }
+
+    /**
+     * @return the ID
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @return the measurments
+     */
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        final int maxLen = 10;
+        return "Sensor [id=" + id + ", measurements=" + (measurements != null
+                ? measurements.subList(0, Math.min(measurements.size(), maxLen))
+                : null) + "]";
+    }
 }

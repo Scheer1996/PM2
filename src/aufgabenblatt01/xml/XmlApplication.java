@@ -16,7 +16,7 @@ public class XmlApplication {
 		
 		Sensor s = new Sensor("TestSensor");
 		Measurement m = new Measurement(20.20, LocalDateTime.now());
-		s.addMeasurementElement(m);
+		s.addMeasurement(m);
 		s.addNewMeasurement(20.20);
 		s.addNewMeasurement(10.00);
 		System.out.println(s.toString());

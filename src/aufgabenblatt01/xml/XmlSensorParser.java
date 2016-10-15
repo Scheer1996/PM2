@@ -62,7 +62,7 @@ public class XmlSensorParser {
 					switch (childNode.getNodeName()) {
 					case "measurement":
 						Measurement m = parseMeasurement(childElement);
-						sensor.addMeasurementElement(m);
+						sensor.addMeasurement(m);
 						break;
 					case "information":
 						// maybe a new Type for extra Informations from the Sensor

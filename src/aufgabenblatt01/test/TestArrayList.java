@@ -24,7 +24,7 @@ import aufgabenblatt01.generics.ArrayList;
  * Test for the {@link ArrayList} class.
  *
  * @author Moritz Höwer
- * @version 3.0 - 10.10.2016
+ * @version 3.1 - 16.10.2016
  */
 public class TestArrayList {
 
@@ -202,7 +202,6 @@ public class TestArrayList {
      */
     @Test
     public void testDelete() {
-
         final int VALUE = 32;
 
         // delete on empty list (value not found)
@@ -234,6 +233,27 @@ public class TestArrayList {
                 list.get(0), is(0));
         assertThat("List did not store the correct element at index 1",
                 list.get(1), is(2));
+
+        // test shrinking
+        list = new ArrayList<>();
+
+        for (int i = 0; i < 11; i++) {
+            list.append(i);
+        }
+        // [0,1,2,3,4,5,6,7,8,9,10]
+        for (int i = 10; i > 6; i--) {
+            list.deleteAt(i);
+        }
+        // [0,1,2,3,4,5,6]
+        // list is just about to be shrunk
+        list.deleteAt(0);
+        // list has now been shrunk back to a length of 10
+        assertThat("Size is wrong", list.size(), is(6));
+        for (int i = 0; i < 6; i++) {
+            assertThat("Element at index " + i + " is wrong", list.get(i),
+                    is(i + 1));
+        }
+
     }
 
     /**
@@ -369,10 +389,26 @@ public class TestArrayList {
         list.append(1);
         assertThat("Integer List should contain Numbers",
                 ArrayList.isFirstElementNumber(list), is(true));
-        
+
         ArrayList<String> stringList = new ArrayList<>();
         stringList.append("Hello World");
         assertThat("String List should not contain Numbers",
                 ArrayList.isFirstElementNumber(stringList), is(false));
     }
+    
+    /**
+     * Test method for {@link ArrayList#toString()}.
+     */
+    @Test
+    public void testToString() {
+        assertThat("Empty List String is wrong", list.toString(), is("ArrayList(0)-[]"));
+        
+        list.append(0);        
+        assertThat("List String is wrong", list.toString(), is("ArrayList(1)-[0]"));
+        
+        list.append(2);
+        list.append(15);
+        assertThat("List String is wrong", list.toString(), is("ArrayList(3)-[0, 2, 15]"));
+    }
+    
 }
