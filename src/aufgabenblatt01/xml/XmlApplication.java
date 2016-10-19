@@ -22,7 +22,7 @@ public class XmlApplication {
 		System.out.println(s.toString());
 		
 
-		Sensor s2 = getSensor(XML_FILE); //read out sensor which was written in the xml file
+		Sensor s2 = readSensor(XML_FILE); //read out sensor which was written in the xml file
 		System.out.println(s2.toString());
 		
 		
@@ -35,10 +35,9 @@ public class XmlApplication {
 	 * gets the Sensor Data which is placed in the XML File @ XML_PATH
 	 * @return Sensor
 	 */
-	private static Sensor getSensor(String filename) {
+	public static Sensor readSensor(String filename) {
 		String filepath = XmlApplication.class.getResource(filename).getFile();
 		XmlSensorParser sensorParser = new XmlSensorParser(filepath);
-		//XmlSensorParser sensorParser = new XmlSensorParser();
 		return sensorParser.parseSensor();
 	}
 	
@@ -46,18 +45,16 @@ public class XmlApplication {
 	 * writes the Sensor s to the XML File @ XML_PATH
 	 * @param s Sensor
 	 */
-	private static void writeSensor(Sensor s, String filename) {
+	public static void writeSensor(Sensor s, String filename) {
 		String filepath = XmlApplication.class.getResource(filename).getFile();
 		XmlSensorWriter sensorWriter;
 		try {
 			sensorWriter = new XmlSensorWriter(filepath);
 			sensorWriter.writeSensor(s);
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e);
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e);
 		}
 		
 	}

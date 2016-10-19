@@ -57,4 +57,25 @@ public class Measurement {
     public String toString() {
         return "Measurement [value=" + value + ", timestamp=" + timestamp + "]";
     }
+    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Measurement)) {
+            return false;
+        }
+
+        Measurement m2 = (Measurement) obj;
+        if(this.getValue() == m2.getValue() && this.getTimestamp() == m2.getTimestamp()) {
+        	return true;
+        }
+        
+        
+        return false;
+    }
 }

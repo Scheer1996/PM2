@@ -34,11 +34,6 @@ public class XmlSensorParser {
 			builder = factory.newDocumentBuilder();
 			document = builder.parse(new File(string));
 			
-			/**
-			 * Try's with relative Path
-			 */
-			//InputStream inputStream = XmlSensorParser.class.getResource("sensor.xml");
-			//document = builder.parse(inputStream);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			System.err.println("Error while reading XML File");
 		}

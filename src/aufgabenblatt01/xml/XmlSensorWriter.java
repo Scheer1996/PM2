@@ -19,6 +19,11 @@ public class XmlSensorWriter {
 	private Document document;
 	private String filePath;
 	
+	/**
+	 * Initilizes the DocumentBuilder for the SensorWriter
+	 * @param filePath 
+	 * @throws ParserConfigurationException
+	 */
 	public XmlSensorWriter(String filePath) throws ParserConfigurationException {
 		this.filePath = filePath;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -28,6 +33,11 @@ public class XmlSensorWriter {
 		
 	}
 	
+	/**
+	 * Creates a XML Document out of the Sensor s with all measurements
+	 * @param s Sensor Element
+	 * @throws TransformerException
+	 */
 	public void writeSensor(Sensor s) throws TransformerException {
 		Element rootElement = document.createElement("sensor");
 		rootElement.setAttribute("id", s.getId());

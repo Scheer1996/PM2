@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import aufgabenblatt01.wiederholung.Student;
+
 /**
  * Representation of a sensor
  *
@@ -68,6 +70,42 @@ public class Sensor {
      */
     public List<Measurement> getMeasurements() {
         return measurements;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Sensor)) {
+            return false;
+        }
+
+        Sensor s2 = (Sensor) obj;
+        if(!this.getId().equals(s2.getId())) {
+        	return false;
+        }
+        
+        //check if there are a equal number of Measurements
+		if(s2.getMeasurements().size() != this.getMeasurements().size()) {
+			return false;
+		}
+		
+		if (this.getMeasurements().size() == 0) {
+
+			return true;
+		} else {
+			for (int i = 0; i > this.getMeasurements().size(); i++) {
+				// if measurment objects are not equal return false
+				if (!this.getMeasurements().get(i).equals(s2.getMeasurements().get(i))) {
+					return false;
+				}
+			}
+		}
+        
+        return true;
     }
 
     /*
