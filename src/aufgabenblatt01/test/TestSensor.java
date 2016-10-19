@@ -54,10 +54,80 @@ public class TestSensor {
     }
     
     /**
+     * Test method for
+     * {@link aufgabenblatt01.xml.Sensor#addMeasurement(Measurement)}.
+     */
+    @Test
+    public void testAddMeasurement() {
+        final double VALUE = 22.4;
+        final LocalDateTime TIME = LocalDateTime.now();
+        Sensor sensor = new Sensor("Test");
+
+        Measurement m = new Measurement(VALUE, TIME);
+        
+        sensor.addMeasurement(m);
+
+        assertThat("Number of Measurements is wrong",
+                sensor.getMeasurements().size(), is(1));
+        Measurement measurment = sensor.getMeasurements().get(0);
+        assertThat("Measurment has wrong value", measurment.getValue(),
+                equalTo(VALUE));
+        assertThat("Measurment has wrong timestamp", measurment.getTimestamp(),
+                equalTo(TIME));
+    }
+       
+    /**
+     * Test method for
+     * {@link aufgabenblatt01.xml.Sensor#equals(Object)}.
+     */
+    @Test
+    public void testSensorEquals() {
+        final double VALUE = 22.4;
+        final LocalDateTime TIME = LocalDateTime.now();
+        final String SENSOR_ID = "Testsensor";
+        final String SENSOR_ID_WRONG = "Testsensor Wrong";
+        
+    	Sensor s1 = new Sensor(SENSOR_ID);
+    	Sensor s2 = new Sensor(SENSOR_ID);		// same as above
+    	Sensor s3 = new Sensor(SENSOR_ID);		// without Measurement
+    	Sensor s4 = new Sensor(SENSOR_ID_WRONG);// with wrong ID
+    	Measurement m1 = new Measurement(VALUE, TIME);
+    	s1.addMeasurement(m1);
+    	s2.addMeasurement(m1);
+    	s4.addMeasurement(m1);
+    	
+        assertThat("s1 should be equal to s2", s1, equalTo(s2));
+        assertThat("s1 should not be equal to s3", s1, not(equalTo(s3)));
+        assertThat("s1 should not be equal to s4", s1, not(equalTo(s4)));
+    }
+    
+    /**
+     * Test method for
+     * {@link aufgabenblatt01.xml.Measurement#equals(Object)}.
+     */
+    @Test
+    public void testMeasurmentEquals() {
+        final double VALUE = 22.4;
+        final LocalDateTime TIME = LocalDateTime.now();
+        final double OTHER_VALUE = 30;
+        final LocalDateTime OTHER_TIME = LocalDateTime.MAX;
+        
+    	Measurement m1 = new Measurement(VALUE, TIME);
+    	Measurement m2 = new Measurement(VALUE, TIME);			// same as m1
+    	Measurement m3 = new Measurement(OTHER_VALUE, TIME);	// other value
+    	Measurement m4 = new Measurement(VALUE, OTHER_TIME);	// other timestamop
+    	
+    	
+        assertThat("m1 should be equal to m2", m1, equalTo(m2));
+        assertThat("m1 should be equal to m3", m1, not(equalTo(m3)));
+        assertThat("m1 should be equal to m4", m1, not(equalTo(m4)));
+    }
+    
+    /**
      * Test method for reading and writing Sensor Elements in XML File
      */
     @Test
-    public void testReadWriteFunction() {
+    public void testReadWrite() {
     	//without Measurements
     	Sensor s1 = new Sensor("Testsensor");
     	XmlApplication.writeSensor(s1, "testsensor.xml");
