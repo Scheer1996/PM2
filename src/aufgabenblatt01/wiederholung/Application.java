@@ -4,18 +4,34 @@
  * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 28.09.2016 
- * Aufgabe: Aufgabenblatt 1 Aufgabe 1
+ * Aufgabe: Praktikum 1
  */
 package aufgabenblatt01.wiederholung;
 
+/**
+ * Application for Aufgabe 2
+ *
+ * @author Philip Scheer, Moritz Höwer
+ * @version 2.0 - 19.10.2016
+ */
 public class Application {
 
+    /**
+     * program entry point
+     * 
+     * @param args
+     *            command line arguments
+     */
     public static void main(String[] args) {
+        Student moritz = new Student("Moritz", "Höwer", 2258108);
+        Student philip = new Student("Philip", "Scheer", 2297475);
 
-        Student s1 = new Student("Hans", "Peter", 20);
-        Student s2 = new Student("Günther", "Maurer", 22);
-
-        System.out.println(s1.equals(s2));
+        System.out.println(moritz + "\n" + philip);
+        System.out.println("moritz equals philip: " + moritz.equals(philip));
+        System.out.println(
+                "moritz compares to philip: " + moritz.compareTo(philip));
+        System.out.println("moritz compares name to philip: "
+                + Student.NAME_COMPARATOR.compare(moritz, philip));
     }
 
 }

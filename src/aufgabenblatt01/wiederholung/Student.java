@@ -4,7 +4,7 @@
  * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 28.09.2016 
- * Aufgabe: Aufgabenblatt 1 Aufgabe 1
+ * Aufgabe: Praktikum 1
  */
 package aufgabenblatt01.wiederholung;
 
@@ -132,5 +132,14 @@ public class Student implements Comparable<Student> {
     public int compareTo(Student otherStudent) {
         return new Integer(getMatriculationNumber())
                 .compareTo(otherStudent.getMatriculationNumber());
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString(){
+        return getFullName() + " (" + getMatriculationNumber() + ")";
     }
 }

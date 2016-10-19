@@ -4,7 +4,7 @@
  * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 16.10.2016 
- * Aufgabe: Aufgabenblatt X
+ * Aufgabe: Praktikum 1
  */
 
 package aufgabenblatt01.test;
@@ -24,8 +24,8 @@ import aufgabenblatt01.xml.XmlApplication;
 /**
  * JUnit test for {@link Sensor}
  *
- * @author Moritz Höwer
- * @version 1.0 - 16.10.2016
+ * @author Moritz Höwer, Philip Scheer
+ * @version 2.0 - 19.10.2016
  */
 public class TestSensor {
 
@@ -92,13 +92,16 @@ public class TestSensor {
     	Sensor s3 = new Sensor(SENSOR_ID);		// without Measurement
     	Sensor s4 = new Sensor(SENSOR_ID_WRONG);// with wrong ID
     	Measurement m1 = new Measurement(VALUE, TIME);
+    	Measurement m2 = new Measurement(VALUE, TIME);
     	s1.addMeasurement(m1);
-    	s2.addMeasurement(m1);
+    	s2.addMeasurement(m2);
     	s4.addMeasurement(m1);
     	
         assertThat("s1 should be equal to s2", s1, equalTo(s2));
         assertThat("s1 should not be equal to s3", s1, not(equalTo(s3)));
         assertThat("s1 should not be equal to s4", s1, not(equalTo(s4)));
+        assertThat("s1 should be equal to itself", s1, equalTo(s1));
+        assertThat("s1 should not equal null", s1, not(equalTo(nullValue())));
     }
     
     /**
@@ -109,18 +112,21 @@ public class TestSensor {
     public void testMeasurmentEquals() {
         final double VALUE = 22.4;
         final LocalDateTime TIME = LocalDateTime.now();
+        final LocalDateTime TIME_COPY = LocalDateTime.from(TIME);
         final double OTHER_VALUE = 30;
         final LocalDateTime OTHER_TIME = LocalDateTime.MAX;
         
     	Measurement m1 = new Measurement(VALUE, TIME);
-    	Measurement m2 = new Measurement(VALUE, TIME);			// same as m1
+    	Measurement m2 = new Measurement(VALUE, TIME_COPY);		// same as m1
     	Measurement m3 = new Measurement(OTHER_VALUE, TIME);	// other value
     	Measurement m4 = new Measurement(VALUE, OTHER_TIME);	// other timestamop
     	
     	
         assertThat("m1 should be equal to m2", m1, equalTo(m2));
-        assertThat("m1 should be equal to m3", m1, not(equalTo(m3)));
-        assertThat("m1 should be equal to m4", m1, not(equalTo(m4)));
+        assertThat("m1 should not equal m3", m1, not(equalTo(m3)));
+        assertThat("m1 should not equal m4", m1, not(equalTo(m4)));
+        assertThat("m1 should be equal to itself", m1, equalTo(m1));
+        assertThat("m1 should not equal null", m1, not(equalTo(nullValue())));
     }
     
     /**
@@ -133,7 +139,7 @@ public class TestSensor {
     	XmlApplication.writeSensor(s1, "testsensor.xml");
     	Sensor s2 = XmlApplication.readSensor("testsensor.xml");
 
-        assertThat("s1 should equal itself", s1, equalTo(s2));
+        assertThat("s2 should equal s1", s2, equalTo(s1));
         
         
         //with measurements
@@ -148,17 +154,7 @@ public class TestSensor {
     	XmlApplication.writeSensor(s3, "testsensor.xml");
     	Sensor s4 = XmlApplication.readSensor("testsensor.xml");
     	
-        assertThat("s3 should equal itself", s3, equalTo(s4));
-
-        
-        //with measurements and NOT equals
-    	Sensor s5 = new Sensor("Testsensor");
-    	Measurement m4 = new Measurement(19, LocalDateTime.now());
-    	s5.addMeasurement(m4);
-    	XmlApplication.writeSensor(s1, "testsensor.xml");
-    	Sensor s6 = XmlApplication.readSensor("testsensor.xml");
-
-        assertThat("s5 should not be equal to s6", s5, not(equalTo(s6)));
+        assertThat("s4 should equal s3", s4, equalTo(s3));
     	
     }
 

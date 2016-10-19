@@ -4,15 +4,13 @@
  * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 28.09.2016 
- * Aufgabe: Aufgabenblatt 1 Aufgabe 2
+ * Aufgabe: Praktikum 1
  */
 package aufgabenblatt01.xml;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import aufgabenblatt01.wiederholung.Student;
 
 /**
  * Representation of a sensor
@@ -71,7 +69,22 @@ public class Sensor {
     public List<Measurement> getMeasurements() {
         return measurements;
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result
+                + ((measurements == null) ? 0 : measurements.hashCode());
+        return result;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -79,32 +92,23 @@ public class Sensor {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Sensor)) {
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-        }
-
-        Sensor s2 = (Sensor) obj;
-        if(!this.getId().equals(s2.getId())) {
-        	return false;
-        }
-        
-        //check if there are a equal number of Measurements
-		if(s2.getMeasurements().size() != this.getMeasurements().size()) {
-			return false;
-		}
-		
-		if (this.getMeasurements().size() == 0) {
-
-			return true;
-		} else {
-			for (int i = 0; i > this.getMeasurements().size(); i++) {
-				// if measurment objects are not equal return false
-				if (!this.getMeasurements().get(i).equals(s2.getMeasurements().get(i))) {
-					return false;
-				}
-			}
-		}
-        
+        if (getClass() != obj.getClass())
+            return false;
+        Sensor other = (Sensor) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (measurements == null) {
+            if (other.measurements != null)
+                return false;
+        } else if (!measurements.equals(other.measurements))
+            return false;
         return true;
     }
 

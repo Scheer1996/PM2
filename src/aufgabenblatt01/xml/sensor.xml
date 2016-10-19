@@ -1,6 +1,1 @@
-<?xml version="1.0" ?>
-<!DOCTYPE Sensor SYSTEM "sensor.dtd">
-<sensor id="Temperatur Wohnzimmer">
-<measurement value="23,2" timestamp="2016-06-23T16:51:40.408"/>
-<measurement value="24,5" timestamp="2016-06-24T12:12:52.000"/>
-</sensor>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><sensor id="Temperatur Wohnzimmer"><measurement timestamp="2016-06-23T16:51:40.408" value="23,2"/><measurement timestamp="2016-06-24T12:12:52" value="24,5"/></sensor>

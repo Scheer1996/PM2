@@ -4,7 +4,7 @@
  * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 28.09.2016 
- * Aufgabe: Aufgabenblatt 1 Aufgabe 2
+ * Aufgabe: Praktikum 1
  */
 package aufgabenblatt01.xml;
 
@@ -57,7 +57,6 @@ public class Measurement {
     public String toString() {
         return "Measurement [value=" + value + ", timestamp=" + timestamp + "]";
     }
-    
 
     /*
      * (non-Javadoc)
@@ -71,11 +70,20 @@ public class Measurement {
         }
 
         Measurement m2 = (Measurement) obj;
-        if(this.getValue() == m2.getValue() && this.getTimestamp() == m2.getTimestamp()) {
-        	return true;
+        if (this.getValue() == m2.getValue()
+                && this.getTimestamp().equals(m2.getTimestamp())) {
+            return true;
         }
-        
-        
         return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return (int) (timestamp.hashCode() * value);
     }
 }

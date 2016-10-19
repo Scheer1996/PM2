@@ -4,7 +4,7 @@
  * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 5.10.2016
- * Aufgabe: Aufgabenblatt 1 Aufgabe 1
+ * Aufgabe: Praktikum 1
  */
 package aufgabenblatt01.test;
 
