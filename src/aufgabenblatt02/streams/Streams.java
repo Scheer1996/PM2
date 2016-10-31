@@ -11,7 +11,7 @@ public class Streams {
 
 	
 	public static void main(String[] args) {
-		List<String> stringArray = Arrays.asList("Eingabe ", "Äußeres ", null, "Strassen-Feger", " ein Haus" );
+		List<String> stringArray = Arrays.asList("Eingabe ", "Äußeres ", null, "Strassen-Feger", " ein Haus");
 		
 		
 		Stream<String> wordsStream = stringArray.stream();
@@ -32,7 +32,7 @@ public class Streams {
 								.map(string -> string.replace("ß", "SS"));
 		
 		// shorts the String to 8 Chars
-		//wordsStream = wordsStream.map(string -> string.substring(8, string.length()));
+		wordsStream = wordsStream.map(string -> string.substring(0, Math.min(8, string.length())));
 		
 		
 		List<String> newStringArray = wordsStream.collect(Collectors.toCollection(ArrayList::new));
@@ -51,14 +51,13 @@ public class Streams {
 						.map(string -> string.replace("Ä", "AE"))
 						.map(string -> string.replace("Ö", "OE"))
 						.map(string -> string.replace("Ü", "UE"))
-						.map(string -> string.replace("ß", "SS"));
-		
-		// shorts the String to 8 Chars
-		//wordsStream = wordsStream.map(string -> string.substring(8, string.length()));
+						.map(string -> string.replace("ß", "SS"))
+						.map(string -> string.substring(0, Math.min(8, string.length())));
 		
 		
-		List<String> newStringArrayFast = wordsStream.collect(Collectors.toCollection(ArrayList::new));
-		
+		List<String> newStringArrayFast = wordsStreamFast.collect(Collectors.toCollection(ArrayList::new));
+
+		System.out.println(newStringArrayFast);
 		
 	}
 	
