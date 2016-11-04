@@ -8,17 +8,14 @@
  */
 package aufgabenblatt02.threads;
 
-/**
- * @author Philip
- *
- */
 public class Application {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+		Airport a = new Airport("HAM");
+		a.run();
 	}
 
 }
