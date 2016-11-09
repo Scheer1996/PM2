@@ -1,32 +1,59 @@
 /*
- * Praktikum Programmiermethodik 2 - WS 2016
- * Gruppe:  Philip Scheer (Philip.Scheeer@haw-hamburg.de),
- * 	        Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
+ * Praktikum PM2 - WS 2016
+ * Gruppe:  Philip Scheer (Philip.Scheer@haw-hamburg.de),
+ *          Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
- * Datum: 20.10.2016
- * Aufgabe: Aufgabenblatt 2
+ * Datum: 09.11.2016 
+ * Aufgabe: Praktikum 2
  */
 package aufgabenblatt02.lambdas;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.DoubleBinaryOperator;
+
+/**
+ * Calculator to demonstrate use of Lambda Expressions
+ *
+ * @author Moritz Höwer, Philip Scheer
+ * @version 1.0 - 09.11.2016
+ */
 public class Calculator {
 
-	public enum BasicOperator {
-		PLUS , MINUS, DIVIDE, MULTIPLY
-	}
-	
-	private DoubleDoubleToDouble addition = (d1, d2) -> { return d1 + d2;};
+    /**
+     * Basic Operations
+     */
+    public enum Operation {
+        ADD, SUBTRACT, MULTIPLY, DIVIDE
+    }
 
-	private DoubleDoubleToDouble subtraction = (d1, d2) -> { return d1 - d2;};
+    /**
+     * Used to map operation enums to lambda expressions
+     */
+    private Map<Operation, DoubleBinaryOperator> operations;
 
-	private DoubleDoubleToDouble divison = (d1, d2) -> { return d1 / d2;};
+    public Calculator() {
+        operations = new HashMap<>();
 
-	private DoubleDoubleToDouble multiplikation = (d1, d2) -> { return d1 * d2;};
-	
+        // populate map
+        operations.put(Operation.ADD, (d1, d2) -> d1 + d2);
+        operations.put(Operation.SUBTRACT, (d1, d2) -> d1 - d2);
+        operations.put(Operation.MULTIPLY, (d1, d2) -> d1 * d2);
+        operations.put(Operation.DIVIDE, (d1, d2) -> d1 / d2);
+    }
 
-	
-	public double calculate(BasicOperator op, double d1, double d2) {
-		
-		
-		return addition.calculate(d1, d2);
-	}
+    /**
+     * Evaluates the given Operand using the two values supplied
+     * 
+     * @param op
+     *            the Operation to perform
+     * @param d1
+     *            the first operand
+     * @param d2
+     *            the second operand
+     * @return the result of applying operation on d1 and d2
+     */
+    public double calculate(Operation op, double d1, double d2) {
+        return operations.get(op).applyAsDouble(d1, d2);
+    }
 }
