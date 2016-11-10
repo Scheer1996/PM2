@@ -10,20 +10,21 @@
 package aufgabenblatt02.threads.just_for_fun;
 
 /**
+ * Application for Airport
  *
- *
- * @author Moritz Höwer
+ * @author Moritz Höwer, Philip Scheer
  * @version 1.0 - 09.11.2016
  */
 public class Application {
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        Airport eddh = new Airport("Hamburg", new Runway("RWY 33"), new Runway("RWY 15"));
-        
-        eddh.simulate();
-    }
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Airport eddh = new Airport("Hamburg", new Runway("RWY 33"),
+				new Runway("RWY 15"));
+
+		eddh.simulate();
+	}
 
 }

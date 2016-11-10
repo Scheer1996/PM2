@@ -10,48 +10,70 @@
 package aufgabenblatt02.threads.just_for_fun;
 
 /**
+ * Representation of a Runway that can be assigned to planes
  *
- *
- * @author Moritz Höwer
+ * @author Moritz Höwer, Philip Scheer
  * @version 1.0 - 09.11.2016
  */
 public class Runway {
 
-    private final String name;
-    private boolean blocked;
-    private Plane plane;
+	/**
+	 * the name of the Runway
+	 */
+	private final String name;
 
-    public Runway(String name) {
-        this.name = name;
-        blocked = false;
-        plane = null;
-    }
+	/**
+	 * the plane that is assigned to this runway
+	 */
+	private Plane plane;
 
-    public boolean isAvailiable() {
-        return !blocked;
-    }
+	public Runway(String name) {
+		this.name = name;
+		plane = null;
+	}
 
-    public void block(Plane plane) {
-        blocked = true;
-        this.plane = plane;
-    }
+	/**
+	 * whether this runway is availiable => no plane is assigned
+	 * 
+	 * @return true if no plane is blocking it
+	 */
+	public boolean isAvailiable() {
+		return plane == null;
+	}
 
-    public boolean isBlockedBy(Plane plane) {
-        return blocked && this.plane == plane;
-    }
+	/**
+	 * Assign the runway to a plane
+	 * 
+	 * @param plane the plane to assgin
+	 */
+	public void assignTo(Plane plane) {
+		this.plane = plane;
+	}
 
-    public void unblock() {
-        plane = null;
-        blocked = false;
-    }
+	/**
+	 * Check whether the runway is assigned to the specific plane
+	 * 
+	 * @param plane the plane to check
+	 * @return true if plane is assigned to this runway
+	 */
+	public boolean isAssignedTo(Plane plane) {
+		return this.plane == plane;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return name;
-    }
+	/**
+	 * free up the runway so it can be used by other planes
+	 */
+	public void freeRunway() {
+		plane = null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return name;
+	}
 }

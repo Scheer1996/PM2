@@ -16,5 +16,5 @@ package aufgabenblatt02.threads.just_for_fun;
  * @version 1.0 - 09.11.2016
  */
 public enum FlightState {
-        CRUISING, HOLDING, LANDING, LANDED
+	CRUISING, HOLDING, LANDING, LANDED
 }
