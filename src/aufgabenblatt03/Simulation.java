@@ -42,15 +42,6 @@ public class Simulation implements Runnable {
         this.numberOfPlatforms = numberOfPlatforms;
         station = new Station(numberOfPlatforms);
         random = new Random();
-
-        station.addObserver((obs, arg) -> {
-            if (obs instanceof Station) {
-                TrainEvent te = (TrainEvent) arg;
-                System.out.format("Driver %d is %s on Platform %d\n",
-                        te.getId(), te.getAction().toString(),
-                        te.getPlatform());
-            }
-        });
     }
 
     /*
@@ -70,6 +61,10 @@ public class Simulation implements Runnable {
                 // ignore
             }
         }
+    }
+
+    public Station getStation() {
+        return station;
     }
 
 }
