@@ -13,6 +13,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,15 +24,22 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- *
+ * GUI for Train Simulation Application (view)
+ * 
  * @author Moritz Höwer, Philip Scheer
  * @version 1.0 - 28.11.2016
  */
 public class GUI implements Observer {
 
+    /*
+     * Constants
+     */
     private static final int SOME_WEIRD_OVERHEAD = 35;
     private static final int MARGIN_BETWEEN = 20;
-    
+
+    /*
+     * Main GUI Elements
+     */
     private HBox root;
     private Label lblStation;
     private Label lblQueue;
@@ -57,6 +65,11 @@ public class GUI implements Observer {
         }
     }
 
+    /**
+     * Prompts the user for a number of platforms for the Station.
+     * 
+     * @return true, if user entered a valid number
+     */
     private boolean getNumberOfPlatforms() {
         TextInputDialog tid = new TextInputDialog("10");
         tid.setTitle("Platform Count");
@@ -84,6 +97,9 @@ public class GUI implements Observer {
         return true;
     }
 
+    /**
+     * initializes all GUI components
+     */
     private void initComponents() {
         // Construct
         lblStation = new Label("Station");
@@ -100,11 +116,10 @@ public class GUI implements Observer {
         vbxStation.setPrefWidth(200);
         HBox.setMargin(vbxQueue, new Insets(0, 0, 0, MARGIN_BETWEEN));
 
-        // TODO: Remove debug colors
-        // DEBUG
-        vbxPlatformsStation.setStyle("-fx-background-color: red;");
-        vbxPlatformsQueue.setStyle("-fx-background-color: green;");
-        // DEBUG
+        /*
+         * // DEBUG vbxPlatformsStation.setStyle("-fx-background-color: red;");
+         * vbxPlatformsQueue.setStyle("-fx-background-color: green;"); // DEBUG
+         */
 
         // create scene
         Scene scene = new Scene(root, 1000, 600);
@@ -127,22 +142,38 @@ public class GUI implements Observer {
         primaryStage.show();
     }
 
+    /**
+     * adds platforms to the visualization of the Station and containers to the
+     * visualization of the queue
+     */
     private void addPlatforms() {
         for (int i = 0; i < numberOfPlatforms; i++) {
-            TrackVisualisation tv = new TrackVisualisation(i, true);
+            TrackVisualisation tv = new TrackVisualisation(i);
 
             // Bind sizes so they always fit window
             tv.widthProperty().bind(vbxStation.widthProperty());
             tv.heightProperty().bind(vbxPlatformsStation.prefHeightProperty()
                     .divide(numberOfPlatforms));
 
+            HBox waitingTrack = new HBox();
+
+            // Bind sizes so they always fit window
+            waitingTrack.prefWidthProperty()
+                    .bind(vbxPlatformsQueue.widthProperty());
+            waitingTrack.prefHeightProperty().bind(vbxPlatformsQueue
+                    .heightProperty().divide(numberOfPlatforms));
+
             vbxPlatformsStation.getChildren().add(tv);
-            
-            // TODO: prepare queue
+            vbxPlatformsQueue.getChildren().add(waitingTrack);
         }
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     @Override
     public void update(Observable obs, Object arg) {
         if (arg instanceof TrainEvent) {
@@ -150,21 +181,60 @@ public class GUI implements Observer {
             TrackVisualisation tv;
             switch (te.getAction()) {
                 case ARRIVE :
-                     tv = (TrackVisualisation) vbxPlatformsStation
-                            .getChildren().get(te.getPlatform());
+                    tv = (TrackVisualisation) vbxPlatformsStation.getChildren()
+                            .get(te.getPlatform());
                     tv.setDriverID(te.getId());
+
+                    removeFromWaitingQueue(te);
                     break;
                 case DEPART :
-                    tv = (TrackVisualisation) vbxPlatformsStation
-                            .getChildren().get(te.getPlatform());
-                    tv.setDriverID(TrackVisualisation.NO_DRIVER);
+                    tv = (TrackVisualisation) vbxPlatformsStation.getChildren()
+                            .get(te.getPlatform());
+                    tv.trainLeft();
                     break;
-                case WAIT :
-                    // TODO: Implement queue
+                case WAIT_ARRIVE :
+                    addToWaitingQueue(te);
                     break;
+                case WAIT_DEPART :
+                    tv = (TrackVisualisation) vbxPlatformsStation.getChildren()
+                            .get(te.getPlatform());
+                    tv.incrementExitCounter();
             }
         }
 
+    }
+
+    /**
+     * Removes an arriving Train from the queue in case it was there
+     * 
+     * @param te
+     *            the TrainEvent for getting necessary information
+     */
+    private void removeFromWaitingQueue(TrainEvent te) {
+        HBox track = (HBox) vbxPlatformsQueue.getChildren()
+                .get(te.getPlatform());
+
+        Platform.runLater(() -> track.getChildren().removeIf(
+                (n) -> ((TrackVisualisation) n).getDriverID() == te.getId()));
+    }
+
+    /**
+     * Adds a Train to the queue
+     * 
+     * @param te
+     *            the TrainEvent for getting necessary information
+     */
+    private void addToWaitingQueue(TrainEvent te) {
+        TrackVisualisation tv;
+        tv = new TrackVisualisation(TrackVisualisation.NO_TRACK_NUMBER);
+        tv.setDriverID(te.getId());
+        HBox track = (HBox) vbxPlatformsQueue.getChildren()
+                .get(te.getPlatform());
+
+        tv.heightProperty().bind(track.prefHeightProperty());
+        tv.setWidth(vbxPlatformsStation.getWidth());
+
+        Platform.runLater(() -> track.getChildren().add(tv));
     }
 
 }

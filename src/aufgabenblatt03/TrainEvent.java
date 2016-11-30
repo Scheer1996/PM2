@@ -4,20 +4,20 @@
  *          Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 27.11.2016 
- * Aufgabe: Praktikum X
+ * Aufgabe: Praktikum 3
  */
 
 package aufgabenblatt03;
 
 /**
- * Wraps the Data Associated with a TrainEvent
+ * Wraps the Data Associated with a TrainEvent (part of Controller?)
  *
  * @author Moritz Höwer, Philip Scheer
  * @version 1.0 - 27.11.2016
  */
 public class TrainEvent {
     public enum Action{
-        ARRIVE, DEPART, WAIT
+        ARRIVE, DEPART, WAIT_ARRIVE, WAIT_DEPART
     }
     
     private final int id;
