@@ -42,13 +42,8 @@ public class Station extends Observable{
         
         // initial check with train event
         if(platforms[platform] != null){
-            try{
-                setChanged();
-                notifyObservers(new TrainEvent(driverID, platform, Action.WAIT_ARRIVE));
-                wait();
-            } catch (InterruptedException e){
-                // ignore
-            }
+        	setChanged();
+            notifyObservers(new TrainEvent(driverID, platform, Action.WAIT_ARRIVE));
         }
         
         while(platforms[platform] != null){
@@ -75,16 +70,13 @@ public class Station extends Observable{
         if(platform < 0 || platform >= platforms.length){
             throw new IndexOutOfBoundsException("Platform must be between 0 and " + platforms.length);
         }
-        
-        if(platforms[platform] == null){
-            try{
-                setChanged();
-                notifyObservers(new TrainEvent(driverID, platform, Action.WAIT_DEPART));
-                wait();
-            } catch (InterruptedException e){
-                // ignore
-            }
-        }
+
+        // initial check with train event
+		if (platforms[platform] == null) {
+			setChanged();
+			notifyObservers(new TrainEvent(driverID, platform, Action.WAIT_DEPART));
+		}
+		
         while(platforms[platform] == null){
             try{
                 // no TrainEvent here
