@@ -6,8 +6,12 @@
 package aufgabenblatt04;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import aufgabenblatt04.braitenbergvehikel.BVBewegungAbstossung;
 import aufgabenblatt04.braitenbergvehikel.BVBewegungAttraktion;
@@ -15,6 +19,7 @@ import aufgabenblatt04.braitenbergvehikel.BVSimulation;
 import aufgabenblatt04.braitenbergvehikel.BraitenbergVehikel;
 import aufgabenblatt04.braitenbergvehikel.Vektor2;
 import aufgabenblatt04.view.BVCanvas;
+import aufgabenblatt04.view.GUI;
 
 /**
  * JavaFX Anwendung zur Darstellung und Interaktion mit einer
@@ -27,20 +32,24 @@ public class BVAnwendung extends Application {
   @Override
   public void start(Stage primaryStage) {
     // Simulation zusammenstellen
-    BVSimulation sim = erzeugeSimulationsszene();
 
-    // Canvas setzen
-    BVCanvas canvas = new BVCanvas(600, 600, sim);
-
-    canvas.zeichneSimulation();
-
+    new GUI(this).showAndWait();
+    
+    
+/*
     // Szenengraph aufbauen
     primaryStage.setTitle("Braitenberg-Vehikel!");
     BorderPane wurzel = new BorderPane();
     wurzel.setCenter(canvas);
 
     primaryStage.setScene(new Scene(wurzel, 850, 600));
-    primaryStage.show();
+    primaryStage.show();*/
+    
+
+  }
+  
+  public BVSimulation getSimulation() {
+	    return erzeugeSimulationsszene();
   }
 
   /**
