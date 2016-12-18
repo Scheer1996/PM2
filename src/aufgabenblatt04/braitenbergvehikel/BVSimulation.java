@@ -12,6 +12,7 @@ package aufgabenblatt04.braitenbergvehikel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import aufgabenblatt04.braitenbergvehikel.BraitenbergVehikel.Richtung;
 
@@ -23,77 +24,91 @@ import aufgabenblatt04.braitenbergvehikel.BraitenbergVehikel.Richtung;
  * @author Philipp Jenke, Moritz Höwer, Philip Scheer
  * @version 2.0 - 18.12.2016
  */
-public class BVSimulation extends Observable {
+public class BVSimulation extends Observable implements Observer{
 
-  /**
-   * Position des Signals.
-   */
-  private Vektor2 signal = new Vektor2(150, 200);
+    /**
+     * Position des Signals.
+     */
+    private Vektor2 signal = new Vektor2(150, 200);
 
-  /**
-   * Liste der zu simulierenden Vehikel
-   */
-  private List<BraitenbergVehikel> vehikel =
-      new ArrayList<BraitenbergVehikel>();
+    /**
+     * Liste der zu simulierenden Vehikel
+     */
+    private List<BraitenbergVehikel> vehikel = new ArrayList<BraitenbergVehikel>();
 
-  public BVSimulation() {
-  }
-
-  /**
-   * Führt einen Simulationsschritt für alle Vehikel durch.
-   */
-  public void simulationsSchritt() {
-    for (BraitenbergVehikel vehikel : this.vehikel) {
-      // Berechne Sensorstärke
-      vehikel.setSensorwert(Richtung.LINKS,
-          getSignalstaerke(vehikel.getSensorPosition(Richtung.LINKS),
-              vehikel.getOrientierung()));
-      vehikel.setSensorwert(Richtung.RECHTS,
-          getSignalstaerke(vehikel.getSensorPosition(Richtung.RECHTS),
-              vehikel.getOrientierung()));
-
-      // Bewege vehikel
-      vehikel.bewege();
-    }
-    setChanged();
-    notifyObservers();
-  }
-
-  /**
-   * Berechnet die Signalstärke für einen Sensor durch die Lichtquelle.
-   */
-  private double getSignalstaerke(Vektor2 sensorPosition,
-      Vektor2 orientierung) {
-    Vektor2 d = signal.subtrahiere(sensorPosition);
-    double entfernung = d.getNorm();
-    d = d.skaliere(1.0 / entfernung);
-    double cosWinkel = d.skalarProdukt(orientierung);
-    if (cosWinkel < 0) {
-      // Vehikel sieht vom Sensor weg.
-      return 0;
+    public BVSimulation() {
     }
 
-    // Winkel-basierte Signalstärke
-    return cosWinkel;
-  }
+    /**
+     * Führt einen Simulationsschritt für alle Vehikel durch.
+     */
+    public void simulationsSchritt() {
+        for (BraitenbergVehikel vehikel : this.vehikel) {
+            // Berechne Sensorstärke
+            vehikel.setSensorwert(Richtung.LINKS,
+                    getSignalstaerke(vehikel.getSensorPosition(Richtung.LINKS),
+                            vehikel.getOrientierung()));
+            vehikel.setSensorwert(Richtung.RECHTS,
+                    getSignalstaerke(vehikel.getSensorPosition(Richtung.RECHTS),
+                            vehikel.getOrientierung()));
 
-  public void vehikelHinzufuegen(BraitenbergVehikel vehikel) {
-    this.vehikel.add(vehikel);
-  }
+            // Bewege vehikel
+            vehikel.bewege();
+        }
+        setChanged();
+        notifyObservers();
+    }
 
-  public int getAnzahlVehike() {
-    return vehikel.size();
-  }
+    /**
+     * Berechnet die Signalstärke für einen Sensor durch die Lichtquelle.
+     */
+    private double getSignalstaerke(Vektor2 sensorPosition,
+            Vektor2 orientierung) {
+        Vektor2 d = signal.subtrahiere(sensorPosition);
+        double entfernung = d.getNorm();
+        d = d.skaliere(1.0 / entfernung);
+        double cosWinkel = d.skalarProdukt(orientierung);
+        if (cosWinkel < 0) {
+            // Vehikel sieht vom Sensor weg.
+            return 0;
+        }
 
-  public BraitenbergVehikel getVehikel(int index) {
-    return vehikel.get(index);
-  }
+        // Winkel-basierte Signalstärke
+        return cosWinkel;
+    }
 
-  public Vektor2 getSignal() {
-    return signal;
-  }
+    public void vehikelHinzufuegen(BraitenbergVehikel vehikel) {
+        this.vehikel.add(vehikel);
+        vehikel.addObserver(this);
+        setChanged();
+        notifyObservers();
+    }
 
-  public void setSignal(double x, double y) {
-    signal = new Vektor2(x, y);
-  }  
+    public int getAnzahlVehike() {
+        return vehikel.size();
+    }
+
+    public BraitenbergVehikel getVehikel(int index) {
+        return vehikel.get(index);
+    }
+
+    public Vektor2 getSignal() {
+        return signal;
+    }
+
+    public void setSignal(double x, double y) {
+        setSignal(new Vektor2(x, y));
+    }
+
+    public void setSignal(Vektor2 signal) {
+        this.signal = signal;
+        setChanged();
+        notifyObservers();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        setChanged();
+        notifyObservers();        
+    }
 }

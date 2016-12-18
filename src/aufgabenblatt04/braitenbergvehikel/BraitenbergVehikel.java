@@ -1,12 +1,14 @@
 package aufgabenblatt04.braitenbergvehikel;
 
+import java.util.Observable;
+
 /**
  * Ein Braitenberg-Vehikel "fühlt" zwei Sensorwerte und steuert darauf basierend
  * zwei Motoren an.
  * 
  * @author Philipp Jenke
  */
-public class BraitenbergVehikel {
+public class BraitenbergVehikel extends Observable {
 
   /**
    * Richtungs-Enum für Motoren und Sensoren.
@@ -202,6 +204,8 @@ public class BraitenbergVehikel {
 
   public void setBewegung(BVBewegung bewegung) {
     this.bewegung = bewegung;
+    setChanged();
+    notifyObservers();
   }
 
   public String getName() {
