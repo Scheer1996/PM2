@@ -5,7 +5,7 @@ package aufgabenblatt04.braitenbergvehikel;
  * 
  * @author Philipp Jenke
  */
-public class BVBewegungAttraktion implements BVBewegung {
+public class BVBewegungAttraktion extends BVBewegung {
   public static final String ID = "ATTRAKTION";
 
   @Override
@@ -24,4 +24,6 @@ public class BVBewegungAttraktion implements BVBewegung {
   public String getId() {
     return ID;
   }
+  
+  
 }

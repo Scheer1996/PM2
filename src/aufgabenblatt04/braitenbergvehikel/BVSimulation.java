@@ -1,16 +1,29 @@
+/*
+ * Praktikum Programmiermethodik 2 - WS 2016
+ * Gruppe:  Philip Scheer (Philip.Scheeer@haw-hamburg.de),
+ *          Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
+ * 
+ * Datum: 18.12.2016 
+ * Aufgabe: Praktikum 4
+ */
+
 package aufgabenblatt04.braitenbergvehikel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import aufgabenblatt04.braitenbergvehikel.BraitenbergVehikel.Richtung;
 
 /**
  * Simulation von Braitenberg-Vehikeln.
  * 
- * @author Philipp Jenke
+ * Changes in v2.0: Made class Observable.
+ * 
+ * @author Philipp Jenke, Moritz Höwer, Philip Scheer
+ * @version 2.0 - 18.12.2016
  */
-public class BVSimulation {
+public class BVSimulation extends Observable {
 
   /**
    * Position des Signals.
@@ -42,6 +55,8 @@ public class BVSimulation {
       // Bewege vehikel
       vehikel.bewege();
     }
+    setChanged();
+    notifyObservers();
   }
 
   /**
@@ -80,5 +95,5 @@ public class BVSimulation {
 
   public void setSignal(double x, double y) {
     signal = new Vektor2(x, y);
-  }
+  }  
 }
